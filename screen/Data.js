@@ -67,6 +67,8 @@ const Data = () => {
   }, [route.params]);
   const base64Credentials = base64encode(`${username}:${password}`);
 
+   
+
   const storeDataOffline = async data => {
     try {
       const storedData = await AsyncStorage.getItem('offlineData');
@@ -398,6 +400,9 @@ const Data = () => {
   const handleLrPhotoPress = () => {
     navigation.navigate('LrPhoto');
   };
+
+
+  
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
