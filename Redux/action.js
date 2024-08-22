@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const login = (username, password) => {
   return async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
-
     try {
       const response = await axios.post(
         'http://mis.santukatransport.in/API/Test/APILogin',

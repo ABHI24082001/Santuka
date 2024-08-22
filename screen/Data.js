@@ -204,7 +204,10 @@ const Data = () => {
 
     // Check if "Santuka" is present in scannedTP
     if (!scannedTP.includes('Santuka')) {
-      Alert.alert('Error', 'The TP data must include "Santuka" to be valid.');
+      Alert.alert(
+        'Error',
+        'This TP is not belongs to SANTUKA TRANSPORT. Pls Verify',
+      );
       return;
     }
 

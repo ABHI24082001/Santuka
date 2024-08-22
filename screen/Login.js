@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,9 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  AppState,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,15 +29,35 @@ const Login = () => {
         const storedUsername = await AsyncStorage.getItem('username');
         const storedPassword = await AsyncStorage.getItem('password');
         if (storedUsername && storedPassword) {
-          navigation.navigate('Dashboard', { username: storedUsername, password: storedPassword });
+          navigation.navigate('Dashboard', {
+            username: storedUsername,
+            password: storedPassword,
+          });
         }
       } catch (error) {
         console.log('Error checking login status:', error);
       }
     };
+
+    const handleAppStateChange = async nextAppState => {
+      if (nextAppState === 'background') {
+        // Clear stored credentials when the app goes to the background
+        await AsyncStorage.removeItem('username');
+        await AsyncStorage.removeItem('password');
+      }
+    };
+
     checkLoginStatus();
+
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      appStateListener.remove();
+    };
   }, []);
-  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -45,11 +66,11 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       if (!username) {
-        Alert.alert('Failed', 'Please provide username');
+        Alert.alert('Failed', 'Please provide a username');
         return;
       }
       if (!password) {
-        Alert.alert('Failed', 'Please provide password');
+        Alert.alert('Failed', 'Please provide a password');
         return;
       }
 
@@ -63,16 +84,16 @@ const Login = () => {
         },
         {
           timeout: 3000,
-        }
+        },
       );
 
       setLoading(false); // Stop loading
 
       if (response.status === 200) {
         await AsyncStorage.setItem('username', username);
-        await AsyncStorage.setItem('password',password)
+        await AsyncStorage.setItem('password', password);
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('Dashboard', { username ,password});
+        navigation.navigate('Dashboard', {username, password});
       } else {
         console.log('Login failed: Invalid username or password');
         setErrorMessage('Invalid username or password');
@@ -100,19 +121,22 @@ const Login = () => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={text => setUsername(text)}
           />
         </View>
         <View style={styles.inputContainer}>
           {/* Password Input */}
-          <Image source={require('./assets/password.png')} style={styles.icon} />
+          <Image
+            source={require('./assets/password.png')}
+            style={styles.icon}
+          />
           <TextInput
             placeholder="Your Password"
             placeholderTextColor="#666666"
             secureTextEntry={!showPassword}
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={text => setPassword(text)}
           />
           {/* Password Visibility Toggle */}
           <TouchableOpacity onPress={togglePasswordVisibility}>
