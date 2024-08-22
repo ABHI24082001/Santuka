@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, Image, StyleSheet, PermissionsAndroid, Platform, Alert } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 
 import DeviceNumber from 'react-native-device-number';
 
-
 const Dashboard = () => {
-  
-
   const navigation = useNavigation();
   const route = useRoute();
-  const { username ,password} = route.params;
-  console.log('username dashboard',username)
-  console.log('password dashboard',password)
+  const {username, password} = route.params;
+  console.log('username dashboard', username);
+  console.log('password dashboard', password);
 
   const [deviceId, setDeviceId] = useState('');
-  
+
   useEffect(() => {
     const fetchDeviceId = async () => {
       try {
@@ -35,19 +39,16 @@ const Dashboard = () => {
 
  
 
-
-
-
   const handleDataPress = () => {
-    navigation.navigate('Data', { username,deviceId ,password});
+    navigation.navigate('Data', {username, deviceId, password});
   };
 
   const handleReconciliationPress = () => {
-    navigation.navigate('Reconciliation',{ username ,password});
+    navigation.navigate('Reconciliation', {username, password});
   };
 
   const handleReportPress = () => {
-    navigation.navigate('Report',{ username ,password});
+    navigation.navigate('Report', {username, password});
   };
 
   const handleSettingsPress = () => {
@@ -60,9 +61,7 @@ const Dashboard = () => {
 
   return (
     <View style={styles.container}>
-      
       <View style={styles.row}>
-       
         <TouchableOpacity style={styles.button} onPress={handleDataPress}>
           <Image
             source={require('./assets/qr.png')}
@@ -71,12 +70,16 @@ const Dashboard = () => {
           <Text style={[styles.buttonText, styles.buttonTextBottom]}>Data</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={handleReconciliationPress}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleReconciliationPress}>
           <Image
             source={require('./assets/pen.png')}
             style={styles.buttonImage}
           />
-          <Text style={[styles.buttonText, styles.buttonTextBottom]}>Reconciliation</Text>
+          <Text style={[styles.buttonText, styles.buttonTextBottom]}>
+            Reconciliation
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -86,14 +89,20 @@ const Dashboard = () => {
             source={require('./assets/book.png')}
             style={styles.buttonImage}
           />
-          <Text style={[styles.buttonText, styles.buttonTextBottom]}>Report</Text>
+          <Text style={[styles.buttonText, styles.buttonTextBottom]}>
+            Report
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleOfflineReportPress}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleOfflineReportPress}>
           <Image
             source={require('./assets/report.png')}
             style={styles.buttonImage}
           />
-          <Text style={[styles.buttonText, styles.buttonTextBottom]}>Offline Report</Text>
+          <Text style={[styles.buttonText, styles.buttonTextBottom]}>
+            Offline Report
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -103,7 +112,9 @@ const Dashboard = () => {
             source={require('./assets/settings.png')}
             style={styles.buttonImage}
           />
-          <Text style={[styles.buttonText, styles.buttonTextBottom]}>Settings</Text>
+          <Text style={[styles.buttonText, styles.buttonTextBottom]}>
+            Settings
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 30,
     margin: 10,
-    marginRight: "52%",
+    marginRight: '52%',
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'flex-start',

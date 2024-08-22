@@ -115,6 +115,13 @@ const Data = () => {
     }
   };
 
+  
+
+
+
+
+
+
   useEffect(() => {
     const retrieveData = async () => {
       try {
