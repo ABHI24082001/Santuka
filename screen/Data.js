@@ -203,7 +203,7 @@ const Data = () => {
     }
 
     // Check if "Santuka" is present in scannedTP
-    if (!scannedTP.includes('Santuka')) {
+    if (!scannedTP.includes('SANTUKA TRANSPORT')) {
       Alert.alert(
         'Error',
         'This TP is not belongs to SANTUKA TRANSPORT. Pls Verify',

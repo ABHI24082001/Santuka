@@ -87,8 +87,6 @@ export default class Report extends Component {
       'Content-Type': 'application/json',
     });
 
-
-
     const startIndex = (currentPage - 1) * perPage;
     const endIndex = startIndex + perPage;
     const formattedSelectedDate = `${selectedDate.getFullYear()}-${String(
@@ -97,7 +95,7 @@ export default class Report extends Component {
 
     let apiUrl = `http://mis.santukatransport.in/API/Test/GetBranchDetails?BranchName=${branchName}`;
 
-   console.log('branch report', apiUrl);
+    console.log('branch report', apiUrl);
 
     if (clientName) {
       apiUrl += `&GetClientDetails?ClientName=${clientName}`;
@@ -133,6 +131,110 @@ export default class Report extends Component {
         console.error('Error fetching data:', error);
         this.setState({dataAvailable: false});
       });
+  };
+
+  loadData = () => {
+    this.serialNumber = 0;
+    const {
+      currentPage,
+      perPage,
+      branchName,
+      clientName,
+      jobName,
+      selectedDate,
+      username,
+      password,
+    } = this.state;
+
+    // Dummy data for testing
+    const dummyData = [
+      {
+        TruckNo: 'ABC123',
+        Challan: '123456',
+        TPNo: 'TP7890',
+        'Loading Qty': '100.00',
+        'Unloading Qty': '90.00',
+        'Unloading Date': '2024-06-01',
+        Cash: '500.00',
+        'E-Adv': '50.00',
+        Hsd: '200.00',
+        'Memo No': 'M123',
+        'Pump Name': 'Pump1',
+        Remarks: 'No remarks',
+      },
+      {
+        TruckNo: 'DEF456',
+        Challan: '654321',
+        TPNo: 'TP0987',
+        'Loading Qty': '120.00',
+        'Unloading Qty': '110.00',
+        'Unloading Date': '2024-06-01',
+        Cash: '600.00',
+        'E-Adv': '60.00',
+        Hsd: '220.00',
+        'Memo No': 'M456',
+        'Pump Name': 'Pump2',
+        Remarks: 'No remarks',
+      },
+      // Add more dummy rows as needed
+    ];
+
+    this.setState({
+      tableData: dummyData,
+      dataAvailable: dummyData.length > 0,
+    });
+
+    // If you want to use the API call and test it as well, uncomment the following:
+    /*
+  const base64Credentials = encode(`${username}:${password}`);
+
+  const headers = new Headers({
+    Authorization: `Basic ${base64Credentials}`,
+    'Content-Type': 'application/json',
+  });
+
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const formattedSelectedDate = `${selectedDate.getFullYear()}-${String(
+    selectedDate.getMonth() + 1,
+  ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+
+  let apiUrl = `http://mis.santukatransport.in/API/Test/GetBranchDetails?BranchName=${branchName}`;
+
+  if (clientName) {
+    apiUrl += `&GetClientDetails?ClientName=${clientName}`;
+  }
+
+  if (jobName) {
+    apiUrl += `&GetJobDetails?JobName=${jobName}`;
+  }
+  if (selectedDate) {
+    apiUrl += `&selectedDate=${formattedSelectedDate}`;
+  }
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: headers,
+  })
+    .then(response => response.json())
+    .then(data => {
+      const filteredData = data.data.filter(row => {
+        const originalLoadDate = new Date(row['LoadDate']);
+        const selectedDateFormatted = new Date(selectedDate);
+        return (
+          originalLoadDate.toDateString() ===
+          selectedDateFormatted.toDateString()
+        );
+      });
+      this.setState({
+        tableData: filteredData,
+        dataAvailable: filteredData.length > 0,
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      this.setState({dataAvailable: false});
+    });
+  */
   };
 
   loadNextPage = () => {
@@ -391,7 +493,7 @@ export default class Report extends Component {
             onChange={this.handleDateChange}
           />
         )}
-        <Button  title="Load Data" onPress={this.loadData} />
+        <Button title="Load Data" onPress={this.loadData} />
         <ScrollView>
           <Table borderStyle={styles.tableBorder}>
             <Row data={tableHead} style={styles.head} textStyle={styles.text} />
@@ -463,10 +565,9 @@ const styles = StyleSheet.create({
   tableBorder: {
     borderWidth: 1,
     borderColor: '#c8e1ff',
-    
   },
   head: {
-    height: 50,
+    height: 60,
     backgroundColor: '#f1f8ff',
   },
   text: {

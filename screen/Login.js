@@ -106,6 +106,12 @@ const Login = () => {
     }
   };
 
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('username');
+    await AsyncStorage.removeItem('password');
+    navigation.navigate('Login');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={[styles.header, styles.welcome]}>
