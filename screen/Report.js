@@ -76,10 +76,12 @@ export default class Report extends Component {
       username,
       password,
     } = this.state;
-
     console.log('branch report', branchName);
     console.log('username report', username);
     console.log('password report', password);
+    console.log('clientName', clientName);
+    console.log('jobName', jobName);
+    console.log('jobName', password);
     const base64Credentials = encode(`${username}:${password}`);
 
     const headers = new Headers({
@@ -133,109 +135,68 @@ export default class Report extends Component {
       });
   };
 
-  loadData = () => {
-    this.serialNumber = 0;
-    const {
-      currentPage,
-      perPage,
-      branchName,
-      clientName,
-      jobName,
-      selectedDate,
-      username,
-      password,
-    } = this.state;
+  // loadData = () => {
+  //   this.serialNumber = 0;
+  //   const {
+  //     currentPage,
+  //     perPage,
+  //     branchName,
+  //     clientName,
+  //     jobName,
+  //     selectedDate,
+  //     username,
+  //     password,
+  //   } = this.state;
+  // const base64Credentials = encode(`${username}:${password}`);
 
-    // Dummy data for testing
-    const dummyData = [
-      {
-        TruckNo: 'ABC123',
-        Challan: '123456',
-        TPNo: 'TP7890',
-        'Loading Qty': '100.00',
-        'Unloading Qty': '90.00',
-        'Unloading Date': '2024-06-01',
-        Cash: '500.00',
-        'E-Adv': '50.00',
-        Hsd: '200.00',
-        'Memo No': 'M123',
-        'Pump Name': 'Pump1',
-        Remarks: 'No remarks',
-      },
-      {
-        TruckNo: 'DEF456',
-        Challan: '654321',
-        TPNo: 'TP0987',
-        'Loading Qty': '120.00',
-        'Unloading Qty': '110.00',
-        'Unloading Date': '2024-06-01',
-        Cash: '600.00',
-        'E-Adv': '60.00',
-        Hsd: '220.00',
-        'Memo No': 'M456',
-        'Pump Name': 'Pump2',
-        Remarks: 'No remarks',
-      },
-      // Add more dummy rows as needed
-    ];
+  // const headers = new Headers({
+  //   Authorization: `Basic ${base64Credentials}`,
+  //   'Content-Type': 'application/json',
+  // });
 
-    this.setState({
-      tableData: dummyData,
-      dataAvailable: dummyData.length > 0,
-    });
+  // const startIndex = (currentPage - 1) * perPage;
+  // const endIndex = startIndex + perPage;
+  // const formattedSelectedDate = `${selectedDate.getFullYear()}-${String(
+  //   selectedDate.getMonth() + 1,
+  // ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
 
-    // If you want to use the API call and test it as well, uncomment the following:
-    /*
-  const base64Credentials = encode(`${username}:${password}`);
+  // let apiUrl = `http://mis.santukatransport.in/API/Test/GetBranchDetails?BranchName=${branchName}`;
 
-  const headers = new Headers({
-    Authorization: `Basic ${base64Credentials}`,
-    'Content-Type': 'application/json',
-  });
+  // if (clientName) {
+  //   apiUrl += `&GetClientDetails?ClientName=${clientName}`;
+  // }
 
-  const startIndex = (currentPage - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  const formattedSelectedDate = `${selectedDate.getFullYear()}-${String(
-    selectedDate.getMonth() + 1,
-  ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+  // if (jobName) {
+  //   apiUrl += `&GetJobDetails?JobName=${jobName}`;
+  // }
+  // if (selectedDate) {
+  //   apiUrl += `&selectedDate=${formattedSelectedDate}`;
+  // }
+  // fetch(apiUrl, {
+  //   method: 'GET',
+  //   headers: headers,
+  // })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     const filteredData = data.data.filter(row => {
+  //       const originalLoadDate = new Date(row['LoadDate']);
+  //       const selectedDateFormatted = new Date(selectedDate);
+  //       return (
+  //         originalLoadDate.toDateString() ===
+  //         selectedDateFormatted.toDateString()
+  //       );
+  //     });
+  //     this.setState({
+  //       tableData: filteredData,
+  //       dataAvailable: filteredData.length > 0,
+  //     });
+  //   })
+  //   .catch(error => {
+  //     console.error('Error fetching data:', error);
+  //     this.setState({dataAvailable: false});
+  //   });
 
-  let apiUrl = `http://mis.santukatransport.in/API/Test/GetBranchDetails?BranchName=${branchName}`;
-
-  if (clientName) {
-    apiUrl += `&GetClientDetails?ClientName=${clientName}`;
-  }
-
-  if (jobName) {
-    apiUrl += `&GetJobDetails?JobName=${jobName}`;
-  }
-  if (selectedDate) {
-    apiUrl += `&selectedDate=${formattedSelectedDate}`;
-  }
-  fetch(apiUrl, {
-    method: 'GET',
-    headers: headers,
-  })
-    .then(response => response.json())
-    .then(data => {
-      const filteredData = data.data.filter(row => {
-        const originalLoadDate = new Date(row['LoadDate']);
-        const selectedDateFormatted = new Date(selectedDate);
-        return (
-          originalLoadDate.toDateString() ===
-          selectedDateFormatted.toDateString()
-        );
-      });
-      this.setState({
-        tableData: filteredData,
-        dataAvailable: filteredData.length > 0,
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      this.setState({dataAvailable: false});
-    });
-  */
-  };
+  // };
 
   loadNextPage = () => {
     this.setState(
@@ -425,7 +386,7 @@ export default class Report extends Component {
 
     try {
       const pdf = await RNHTMLtoPDF.convert(options);
-      console.log('PDF file created at:', pdf.filePath);
+      console.log('PDF file creatwslnjndjkded at:', pdf.filePath);
 
       Alert.alert(
         'PDF Generated',
@@ -449,6 +410,18 @@ export default class Report extends Component {
     this.setState({showDatePicker: true});
   };
 
+  async createPDF() {
+    let options = {
+      html: '<h1>PDF TEST</h1>',
+      fileName: 'test',
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+   
+    alert(file.filePath);
+  }
+
   render() {
     const {
       tableHead,
@@ -458,7 +431,6 @@ export default class Report extends Component {
       showDatePicker,
       selectedDate,
     } = this.state;
-
     return (
       <View style={styles.container}>
         <TextInput
@@ -494,7 +466,7 @@ export default class Report extends Component {
           />
         )}
         <Button title="Load Data" onPress={this.loadData} />
-        <ScrollView>
+        <ScrollView horizontal={true}>
           <Table borderStyle={styles.tableBorder}>
             <Row data={tableHead} style={styles.head} textStyle={styles.text} />
             {dataAvailable ? (
@@ -539,6 +511,11 @@ export default class Report extends Component {
           </TouchableOpacity>
         </View>
         <Button title="Print PDF" onPress={this.handlePrintPDF} />
+        <Button
+          style={styles.other}
+          title="other print"
+          onPress={this.createPDF}
+        />
       </View>
     );
   }
@@ -567,7 +544,8 @@ const styles = StyleSheet.create({
     borderColor: '#c8e1ff',
   },
   head: {
-    height: 60,
+    height: 70,
+    width: 900,
     backgroundColor: '#f1f8ff',
   },
   text: {
@@ -575,7 +553,12 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   row: {
-    height: 40,
+    height: 60,
+    width: 900,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
     backgroundColor: '#FFFFFF',
   },
   pagination: {
@@ -589,4 +572,5 @@ const styles = StyleSheet.create({
   paginationText: {
     fontSize: 16,
   },
+
 });

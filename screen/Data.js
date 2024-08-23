@@ -19,31 +19,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Data = () => {
   const navigation = useNavigation();
   const route = useRoute();
-
   const [upiAmount, setUpiAmount] = useState('');
   const [scannedTP, setScannedTP] = useState('');
   const [scannedChallan, setScannedChallan] = useState('');
   const [tpDetails, setTpDetails] = useState(null);
   const [challanDetails, setChallanDetails] = useState(null);
-
   const [truckNo, setTruckNo] = useState('');
   const [cash, setCash] = useState('');
   const [bankAmt, setBankAmt] = useState('');
   const [hsdAmt, setHsdAmt] = useState('');
   const [pumpName, setPumpName] = useState('');
   const [slipNo, setSlipNo] = useState('');
-
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [username, setUsername] = useState(route.params?.username || '');
   const [password, setPassword] = useState(route.params?.password || '');
   const [deviceId, setDeviceId] = useState(route.params?.deviceId || '');
   const [isLoading, setIsLoading] = useState(false);
-
   const {paValue} = route.params;
-
   // Initialize upiId with paValue
   const [upiId, setUpiId] = useState(paValue);
-
   // testing.....
   console.log('Extracted "pa" parameter value:', paValue);
   console.log('paValue:', paValue);
@@ -66,8 +60,6 @@ const Data = () => {
     }
   }, [route.params]);
   const base64Credentials = base64encode(`${username}:${password}`);
-
-   
 
   const storeDataOffline = async data => {
     try {
@@ -114,13 +106,6 @@ const Data = () => {
       Alert.alert('Error', 'An error occurred while storing data offline.');
     }
   };
-
-  
-
-
-
-
-
 
   useEffect(() => {
     const retrieveData = async () => {
@@ -193,8 +178,6 @@ const Data = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-
 
   const postDataToApi = async () => {
     if (!scannedTP || !scannedChallan) {
@@ -303,7 +286,6 @@ const Data = () => {
     }
   };
 
-
   const checkTpAvailabilityWithApi = async tpNo => {
     try {
       const base64Credentials = base64encode('admin:admin');
@@ -410,9 +392,6 @@ const Data = () => {
   const handleLrPhotoPress = () => {
     navigation.navigate('LrPhoto');
   };
-
-
-  
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

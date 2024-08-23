@@ -23,41 +23,60 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const storedUsername = await AsyncStorage.getItem('username');
-        const storedPassword = await AsyncStorage.getItem('password');
-        if (storedUsername && storedPassword) {
-          navigation.navigate('Dashboard', {
-            username: storedUsername,
-            password: storedPassword,
-          });
-        }
-      } catch (error) {
-        console.log('Error checking login status:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     try {
+  //       const storedUsername = await AsyncStorage.getItem('username');
+  //       const storedPassword = await AsyncStorage.getItem('password');
+  //       if (storedUsername && storedPassword) {
+  //         navigation.navigate('Dashboard', {
+  //           username: storedUsername,
+  //           password: storedPassword,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.log('Error checking login status:', error);
+  //     }
+  //   };
 
-    const handleAppStateChange = async nextAppState => {
-      if (nextAppState === 'background') {
-        // Clear stored credentials when the app goes to the background
-        await AsyncStorage.removeItem('username');
-        await AsyncStorage.removeItem('password');
-      }
-    };
+  //   const handleAppStateChange = async nextAppState => {
+  //     if (nextAppState === 'background') {
+  //       // Clear stored credentials when the app goes to the background
+  //       await AsyncStorage.removeItem('username');
+  //       await AsyncStorage.removeItem('password');
+  //     }
+  //   };
 
-    checkLoginStatus();
+  //   checkLoginStatus();
 
-    const appStateListener = AppState.addEventListener(
-      'change',
-      handleAppStateChange,
-    );
+  //   const appStateListener = AppState.addEventListener(
+  //     'change',
+  //     handleAppStateChange,
+  //   );
 
-    return () => {
-      appStateListener.remove();
-    };
-  }, []);
+  //   return () => {
+  //     appStateListener.remove();
+  //   };
+  // }, []);
+
+
+   useEffect(() => {
+     const checkLoginStatus = async () => {
+       try {
+         const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+         if (isLoggedIn === 'true') {
+           navigation.navigate('Dashboard', {
+             username: await AsyncStorage.getItem('username'),
+             password: await AsyncStorage.getItem('password'),
+           });
+         }
+       } catch (error) {
+         console.log('Error checking login status:', error);
+       }
+     };
+
+     checkLoginStatus();
+   }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -90,6 +109,7 @@ const Login = () => {
       setLoading(false); // Stop loading
 
       if (response.status === 200) {
+        await AsyncStorage.setItem('isLoggedIn', 'true');
         await AsyncStorage.setItem('username', username);
         await AsyncStorage.setItem('password', password);
         Alert.alert('Success', 'Login successful');
@@ -106,11 +126,6 @@ const Login = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('username');
-    await AsyncStorage.removeItem('password');
-    navigation.navigate('Login');
-  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

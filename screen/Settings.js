@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button, Alert, TextInput, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+ import AsyncStorage from '@react-native-async-storage/async-storage';
 const App = () => {
   const [inputText, setInputText] = React.useState('https://mis.santukatransport.in/API/Test'); // Initial input value
   const navigation = useNavigation();
@@ -22,29 +22,50 @@ const App = () => {
     );
   };
 
-  const handleLogout = () => {
-    Alert.alert(
-      'Confirm Logout',
-      'Are you sure you want to log out?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Logout',
-          onPress: () => {
-            // Implement your logout logic here
-            console.log('User logged out');
 
-            // Navigate to the "Login" screen after logout
-            navigation.navigate('Login');
-          },
-        },
-      ]
-    );
-  };
+   const handleLogout = async () => {
+     try {
+       await AsyncStorage.removeItem('isLoggedIn');
+       await AsyncStorage.removeItem('username');
+       await AsyncStorage.removeItem('password');
+       navigation.navigate('Login'); // Navigate back to the login screen
+     } catch (error) {
+       console.log('Error logging out:', error);
+     }
+   };
 
+  // const handleLogout = () => {
+  //   Alert.alert(
+  //     'Confirm Logout',
+  //     'Are you sure you want to log out?',
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'Logout',
+  //         onPress: () => {
+  //           // Implement your logout logic here
+  //           console.log('User logged out');
+
+  //           // Navigate to the "Login" screen after logout
+  //           navigation.navigate('Login');
+  //         },
+  //       },
+  //     ]
+  //   );
+  // };
+
+
+  // const handleLogout = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('isLoggedIn');
+  //     navigation.navigate('Login'); // Navigate back to the login screen
+  //   } catch (error) {
+  //     console.log('Error logging out:', error);
+  //   }
+  // };
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
