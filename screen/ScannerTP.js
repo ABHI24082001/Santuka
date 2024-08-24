@@ -40,6 +40,11 @@ class ScannerTP extends Component {
             reactivate={true}
             reactivateTimeout={2000}
             showMarker={true}
+            cameraProps={{
+              captureAudio: false,
+              ratio: '16:9',
+              autofocus: true,
+            }}
             flashMode={
               torchOn
                 ? RNCamera.Constants.FlashMode.torch

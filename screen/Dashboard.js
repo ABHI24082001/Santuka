@@ -32,11 +32,10 @@ const Dashboard = () => {
         Alert.alert('Error', error.message);
       }
     };
-
     fetchDeviceId();
   }, []);
 
-
+ 
  
 
   const handleDataPress = () => {

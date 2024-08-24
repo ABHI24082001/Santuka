@@ -35,8 +35,7 @@ const App = () => {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="ScannerTP" component={ScannerTPScreen} />
         <Stack.Screen name="ScannerChallan" component={ScannerChallanScreen} />
-        <Stack.Screen name="Scan" component={ScanScreen} />
-       
+        <Stack.Screen name="Scan" component={ScanScreen} />      
         <Stack.Screen name="UpiScanner" component={UpiScannerScreen} />
         <Stack.Screen name="ScannerLR" component={ScannerLRScreen} />
         <Stack.Screen name="LrPhoto" component={LrPhotoScreen} />

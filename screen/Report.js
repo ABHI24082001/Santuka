@@ -265,8 +265,7 @@ export default class Report extends Component {
         sum += parseFloat(columnValue);
       }
     }
-
-    return !isNaN(sum) && sum !== 0 ? sum : ''; // Display empty string if the sum is NaN or 0
+    return !isNaN(sum) && sum !== 0 ? sum : ''; 
   };
 
   handlePrintPDF = async () => {
@@ -383,7 +382,6 @@ export default class Report extends Component {
       fileName: 'Report',
       directory: 'Documents',
     };
-
     try {
       const pdf = await RNHTMLtoPDF.convert(options);
       console.log('PDF file creatwslnjndjkded at:', pdf.filePath);
@@ -399,6 +397,8 @@ export default class Report extends Component {
     }
   };
 
+  
+
   handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.selectedDate;
     this.setState({selectedDate: currentDate, showDatePicker: false}, () => {
@@ -410,17 +410,7 @@ export default class Report extends Component {
     this.setState({showDatePicker: true});
   };
 
-  async createPDF() {
-    let options = {
-      html: '<h1>PDF TEST</h1>',
-      fileName: 'test',
-      directory: 'Documents',
-    };
-
-    let file = await RNHTMLtoPDF.convert(options);
-   
-    alert(file.filePath);
-  }
+  
 
   render() {
     const {
@@ -511,11 +501,6 @@ export default class Report extends Component {
           </TouchableOpacity>
         </View>
         <Button title="Print PDF" onPress={this.handlePrintPDF} />
-        <Button
-          style={styles.other}
-          title="other print"
-          onPress={this.createPDF}
-        />
       </View>
     );
   }
@@ -574,3 +559,9 @@ const styles = StyleSheet.create({
   },
 
 });
+
+
+
+// The this keyword refers to the object that is executing the current 
+// function or method. It allows access to object properties and methods
+//  within the context of that object.

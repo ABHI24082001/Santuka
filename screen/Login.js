@@ -122,7 +122,7 @@ const Login = () => {
       console.log('An error occurred during login:', error);
       setErrorMessage('An error occurred. Please try again.');
     } finally {
-      setLoading(false); // Stop loading in case of error
+      setLoading(false);
     }
   };
 
